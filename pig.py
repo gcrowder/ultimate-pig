@@ -5,18 +5,23 @@ class Player:
     def __init__(self):
         self.strategy = ['roll', 'hold']
         self.total = 0
+        self.turn = 0
 
-    def choice(self):
-        return self.strategy[0]
+    def choice(self, turn):
+        if self.turn == turn:
+            return self.strategy[1]
+        else:
+            self.turn = turn
+            return self.strategy[0]
 
 
 def roll_die():
     return random.randint(1, 6)
 
 
-def turn(player):
+def turn(player, turn):
     total = player.total
-    choice = player.choice()
+    choice = player.choice(turn)
     if choice == 'roll':
         roll = roll_die()
         if roll == 1:
