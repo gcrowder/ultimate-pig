@@ -17,6 +17,9 @@ class Player:
     def add_to_total(self, number):
         self.total += number
 
+    def next_turn(self):
+        self.turn += 1
+
 
 def roll_die():
     return random.randint(1, 6)

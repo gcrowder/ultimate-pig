@@ -17,6 +17,12 @@ def test_add_to_player_total():
     jeff.add_to_total(1)
     assert jeff.total == 1
 
+
+def test_next_player_turn():
+    sally = Player()
+    sally.next_turn()
+    assert sally.turn == 1
+
 anne = Player()
 
 
@@ -41,6 +47,8 @@ def test_turn(mock_random):
     assert turn(joe, 1) == 6
 
 
-# @mock.patch('random.randint')
-# def test_game_loop(mock_random):
-#     mock_random.return_value = 1
+@mock.patch('random.randint')
+def test_game_loop(mock_random):
+    mock_random.return_value = 1
+    jim = Player()
+    assert game_loop(jim) == 7
