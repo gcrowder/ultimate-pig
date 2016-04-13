@@ -25,7 +25,7 @@ def roll_die():
     return random.randint(1, 6)
 
 
-def turn(player, turn):
+def play(player, turn):
     total = player.total
     choice = player.choice(turn)
     if choice == 'roll':
@@ -37,3 +37,14 @@ def turn(player, turn):
             return total
     else:
         return total
+
+
+def game_loop(player):
+    result = 0
+    for turn in range(7):
+        result = play(player, turn)
+        while player.total != result:
+            player.add_to_total(result)
+            result = play(player, turn)
+            player.next_turn()
+    return player.total

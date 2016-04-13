@@ -44,11 +44,11 @@ def test_roll(mock_random):
 def test_turn(mock_random):
     mock_random.return_value = 6
     joe = Player()
-    assert turn(joe, 1) == 6
+    assert play(joe, 1) == 6
 
 
 @mock.patch('random.randint')
 def test_game_loop(mock_random):
-    mock_random.return_value = 1
+    mock_random.return_value = 2
     jim = Player()
-    assert game_loop(jim) == 7
+    assert game_loop(jim) == 14
