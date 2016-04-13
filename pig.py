@@ -1,23 +1,46 @@
 import random
+import statistics as st
 
 
 class Player:
     def __init__(self):
         self.total = 0
-        self.turn_amount = 0
+        self.last_roll = 0
 
-    def choice(self, turn):
-        if self.turn == turn:
-            return self.strategy[1]
-        else:
-            self.turn = turn
-            return self.strategy[0]
-
-    # def add_to_total(self, number):
-    #     self.total += number
-
-    def is_roll_again(self):
+    def is_roll_again(self, turn):
         return False
+
+
+class EagerPlayer(Player):
+    def is_roll_again(self, turn):
+        if self.last_roll == 1:
+            return False
+        elif turn == 0 or self.total < 10:
+            return True
+        elif self.total / turn < 10:
+            return True
+        else:
+            return False
+
+
+class ArbitraryPlayer(Player):
+    def is_roll_again(self, turn):
+        if self.last_roll == 1:
+            return False
+        else:
+            return random.choice([True, False])
+
+
+class OverlyCautiousPlayer(Player):
+    def is_roll_again(self, turn):
+        if self.last_roll == 1:
+            return False
+        elif turn == 0 or self.total < 4:
+            return True
+        elif self.total / turn > 4:
+            return False
+        else:
+            return True
 
 
 def roll_die():
@@ -27,6 +50,7 @@ def roll_die():
 def play(player):
     total = player.total
     roll = roll_die()
+    player.last_roll = roll
     if roll == 1:
         return total
     else:
@@ -39,18 +63,43 @@ def game_loop(player):
     for turn in range(7):
         result = play(player)
         player.total = result
-        while player.is_roll_again():
+        while player.is_roll_again(turn):
             result = play(player)
             player.total = result
     return player.total
 
 
 def main():
+    trials = 1000
     player_class_trials = []
-    for _ in range(1):
+    for _ in range(trials):
         bob = Player()
         player_class_trials.append(game_loop(bob))
-    print("List: ", player_class_trials)
+
+    print("Player Mean: ", st.mean(player_class_trials))
+    print("Player StDev: ", st.stdev(player_class_trials))
+
+    eager_player_trials = []
+    for _ in range(trials):
+        sally = EagerPlayer()
+        eager_player_trials.append(game_loop(sally))
+    print("Eager Player Mean: ", st.mean(eager_player_trials))
+    print("Eager Player StDev: ", st.stdev(eager_player_trials))
+
+    arbitrary_player_trials = []
+    for _ in range(trials):
+        june = ArbitraryPlayer()
+        arbitrary_player_trials.append(game_loop(june))
+    print("Arbitrary Player Mean: ", st.mean(arbitrary_player_trials))
+    print("Arbitrary Player StDev: ", st.stdev(arbitrary_player_trials))
+
+    overly_cautious_trials = []
+    for _ in range(trials):
+        melvin = OverlyCautiousPlayer()
+        overly_cautious_trials.append(game_loop(melvin))
+    print("Overly Cautious Player Mean: ", st.mean(overly_cautious_trials))
+    print("Overly Cautious Player StDev: ", st.stdev(overly_cautious_trials))
+
 
 if __name__ == '__main__':
     main()

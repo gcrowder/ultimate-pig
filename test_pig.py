@@ -1,4 +1,4 @@
-from pig import *
+from pig import Player, roll_die, play, game_loop
 from unittest import mock
 
 
