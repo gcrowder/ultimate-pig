@@ -14,6 +14,9 @@ class Player:
             self.turn = turn
             return self.strategy[0]
 
+    def add_to_total(self, number):
+        self.total += number
+
 
 def roll_die():
     return random.randint(1, 6)
