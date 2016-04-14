@@ -1,5 +1,6 @@
 import random
 import statistics as st
+import matplotlib.pyplot as plt
 
 
 class Player:
@@ -78,28 +79,40 @@ def main():
 
     print("Player Mean: ", st.mean(player_class_trials))
     print("Player StDev: ", st.stdev(player_class_trials))
-
+    plt.figure(1)
+    plt.boxplot(player_class_trials)
+    plt.ylabel('Game Score')
+    plt.show()
     eager_player_trials = []
     for _ in range(trials):
         sally = EagerPlayer()
         eager_player_trials.append(game_loop(sally))
     print("Eager Player Mean: ", st.mean(eager_player_trials))
     print("Eager Player StDev: ", st.stdev(eager_player_trials))
-
+    plt.figure(2)
+    plt.boxplot(eager_player_trials)
+    plt.ylabel('Game Score')
+    plt.show()
     arbitrary_player_trials = []
     for _ in range(trials):
         june = ArbitraryPlayer()
         arbitrary_player_trials.append(game_loop(june))
     print("Arbitrary Player Mean: ", st.mean(arbitrary_player_trials))
     print("Arbitrary Player StDev: ", st.stdev(arbitrary_player_trials))
-
+    plt.figure(3)
+    plt.boxplot(arbitrary_player_trials)
+    plt.ylabel('Game Score')
+    plt.show()
     overly_cautious_trials = []
     for _ in range(trials):
         melvin = OverlyCautiousPlayer()
         overly_cautious_trials.append(game_loop(melvin))
     print("Overly Cautious Player Mean: ", st.mean(overly_cautious_trials))
     print("Overly Cautious Player StDev: ", st.stdev(overly_cautious_trials))
-
+    plt.figure(4)
+    plt.boxplot(overly_cautious_trials)
+    plt.ylabel('Game Score')
+    plt.show()
 
 if __name__ == '__main__':
     main()
